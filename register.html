@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<head>
+    <script>
+        ((o, w, n, i, d) => {
+            o[i] = o[i] || (async (...a) => ((o[i].q = o[i].q || []).push(a), { error: null, data: null })),
+                (d = w.createElement("script")).src = 'https://cdn.ownid.com/sdk/' + n, d.async = 1, w.head.appendChild(d)
+        })
+            (window, document, '0lhf27b6qgc99e', 'ownid');
+    </script>
+</head>
+
+<body>
+    <h1>Register</h1>
+    <form name="myForm" onsubmit="onSubmit(); return false;">
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="email"><br>
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password"><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+    <input type="button" value="Back" onclick="location.href='./index.html'">
+    <script>
+        var ownIdDataString;
+
+        async function onSubmit(userData) {
+            //Call your existing registration logic in the backend
+            const username = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const body = { username: username, password: password , ownid_data: ownIdDataString}
+            resp = await fetch(`https://obliging-swan-trivially.ngrok-free.app/register`, { method: "POST", body: JSON.stringify(body) });
+
+            resp.ok ? alert("User registered succefully") : alert("Unauthenticated");
+        }
+
+        ownid("register", {
+            passwordField: document.getElementById("password"),
+            loginIdField: document.getElementById("email"),
+            onError: (error) => console.log.d(error),
+            onRegister: (event) => ownIdDataString = event.data,
+        });
+    </script>
+</body>

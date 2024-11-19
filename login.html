@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+    <h1>Login</h1>
+    <form name="Login">
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="email"><br>
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password"><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+    <input type="button" value="Back" onclick="location.href='./index.html'">
+    <script>
+        ((o, w, n, i, d) => {
+            o[i] = o[i] || (async (...a) => ((o[i].q = o[i].q || []).push(a), { error: null, data: null })),
+            (d = w.createElement("script")).src = 'https://cdn.ownid.com/sdk/' + n, d.async = 1, w.head.appendChild(d)
+        })
+            (window, document, '0lhf27b6qgc99e', 'ownid');
+    </script>
+    <script>
+        ownid("login", {
+            loginIdField: document.getElementById("email"),
+            passwordField: document.getElementById("password"),
+            onError: (error) => console.log(error),
+            onLogin: function (data) {
+                //setting user session
+                localStorage.setItem('data', JSON.stringify({ token: data.token }));
+                //redirecting user to the account page
+                window.location.href = '/account';
+            }
+        });
+    </script>
+</body>
