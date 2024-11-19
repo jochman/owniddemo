@@ -36,7 +36,7 @@
         ownid("register", {
             passwordField: document.getElementById("password"),
             loginIdField: document.getElementById("email"),
-            onError: (error) => console.log.d(error),
+            onError: (error) => console.log(error),
             onRegister: (event) => ownIdDataString = event.data,
         });
     </script>
