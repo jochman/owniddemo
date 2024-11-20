@@ -23,25 +23,42 @@
     </script>
     <script>
         // Own ID start
-        ownid('start', {
-            providers: {
-                session: {
-                    create: async (data) => {
+        const providers = {
+            session: {
+                create: async (data) => {
+                    try {
+                        await this.authService.onLogin(data);
+
+                        return { status: 'logged-in' };
+                    } catch (error) {
+                        console.error(error);
+                        return { status: 'fail', reason: 'Failed to create session' };
+                    }
+                },
+            },
+            auth: {
+                password: {
+                    authenticate: async (params) => {
                         try {
-                            // set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
-                            await this.authService.onLogin(data);
+                            await this.authService.login({ email: params.loginId, password: params.password });
 
                             return { status: 'logged-in' };
-                        } catch (error) {
-                            return { status: 'fail', reason: 'Failed to create session' };
+                        } catch {
+                            return { status: 'fail', reason: 'Please enter a valid password' };
                         }
                     },
+                    reset: () => ({ action: 'redirect', url: '../reset-password' }),
                 },
-                events: {
-                    onFinish: async () => ({ action: 'redirect', url: "/my-account" })
-                }
-            }
-        });
+            },
+        };
+        const events = {
+            onFinish: async () => ({ action: 'redirect', url: pathArr.join('/') }),
+            onAccountNotFound: async () => {
+                return { action: 'redirect', url: pathArr.join('/') };
+            },
+        };
+
+        window.ownid('start', { providers, events });
 
     </script>
     <script>
