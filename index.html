@@ -54,7 +54,7 @@
         const events = {
             onFinish: async () => ({ action: 'redirect', url: '/' }),
             onAccountNotFound: async () => {
-                return { action: 'redirect', url: '/' };
+                return { action: 'redirect', url: './register.html' };
             },
         };
 
