@@ -64,12 +64,12 @@
     </script>
     <script>
         function logout() {
-            if (localStorage.getItem('token') === 'null') {
+            if (localStorage.getItem('token') === null) {
                 alert("Youre already logged out");
             } else {
-                localStorage.setItem('token', null);
+                localStorage.removeItem('token')
                 alert("Logged out!")
-                window.location.reload();
+                window.location.reload
             }
         };
 
