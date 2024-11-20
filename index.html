@@ -27,7 +27,7 @@
             session: {
                 create: async (data) => {
                     try {
-                        await this.authService.onLogin(data);
+                        localStorage.setItem('token', data.token)
 
                         return { status: 'logged-in' };
                     } catch (error) {
@@ -52,7 +52,7 @@
             },
         };
         const events = {
-            onFinish: async () => ({ action: 'redirect', url: '/' }),
+            onFinish: async () => ({ action: 'redirect', url: './' }),
             onAccountNotFound: async () => {
                 return { action: 'redirect', url: './register.html' };
             },
@@ -63,10 +63,10 @@
     </script>
     <script>
         function logout() {
-            if (localStorage.getItem('data') === null) {
+            if (localStorage.getItem('token') === null) {
                 alert("Youre already logged out");
             } else {
-                localStorage.setItem('data', null);
+                localStorage.setItem('token', null);
                 alert("Logged out!")
             }
         };
