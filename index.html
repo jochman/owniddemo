@@ -58,7 +58,8 @@
             },
         };
 
-        window.ownid('start', { providers, events });
+        if (localStorage.getItem('token') === null) { window.ownid('start', { providers, events }); };
+
 
     </script>
     <script>
