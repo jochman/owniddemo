@@ -21,14 +21,26 @@
         })
             (window, document, '0lhf27b6qgc99e', 'ownid');
     </script>
+</head>
+
+<body>
+    <div>
+        <h1>Hi there! go away</h1>
+        <p>User logged is <b id="userLogged">None</b></p>
+        <iframe src="https://giphy.com/embed/dNKoBpFpIFnr2" width="480" height="365" style="" frameBorder="0"
+            class="giphy-embed" allowFullScreen></iframe>
+        <p><a href="https://giphy.com/gifs/dNKoBpFpIFnr2">via GIPHY</a></p>
+
+        <input type="button" value="Logout" onclick="return logout()" />
+    </div>
     <script>
         // Own ID start
         const providers = {
             session: {
                 create: async (data) => {
                     try {
-                        localStorage.setItem('token', data.token)
-
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('user', data.metadata.loginId);
                         return { status: 'logged-in' };
                     } catch (error) {
                         console.error(error);
@@ -52,13 +64,16 @@
             },
         };
         const events = {
-            onFinish: async () => ({ action: 'redirect', url: './' }),
+            onFinish: async () => ({ action: 'redirect', url: './index.html' }),
             onAccountNotFound: async () => {
                 return { action: 'redirect', url: './register.html' };
             },
         };
 
-        if (localStorage.getItem('token') === null) { window.ownid('start', { providers, events }); };
+        if (localStorage.getItem('token') === null) { window.ownid('start', { providers, events }); } else {
+            const b = document.getElementById('userLogged');
+            b.innerText= localStorage.getItem('user');
+        };
 
 
     </script>
@@ -68,6 +83,7 @@
                 alert("Youre already logged out");
             } else {
                 localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 alert("Logged out!");
                 window.location.reload();
             }
@@ -75,16 +91,4 @@
 
 
     </script>
-</head>
-
-<body>
-    <div>
-        <h1>Hi there! go away</h1>
-
-        <iframe src="https://giphy.com/embed/dNKoBpFpIFnr2" width="480" height="365" style="" frameBorder="0"
-            class="giphy-embed" allowFullScreen></iframe>
-        <p><a href="https://giphy.com/gifs/dNKoBpFpIFnr2">via GIPHY</a></p>
-
-        <input type="button" value="Logout" onclick="return logout()" />
-    </div>
 </body>

@@ -14,6 +14,7 @@
         div {
             text-align: center;
         }
+
         #submit {
             background-color: greenyellow;
         }
@@ -31,7 +32,7 @@
             <input type="button" value="Back" onclick="location.href='./index.html'">
             <input type="submit" value="Submit" id="submit">
         </form>
-        
+
     </div>
     <script>
         var ownIdDataString;
@@ -43,7 +44,7 @@
             const body = { username: username, password: password, ownid_data: ownIdDataString }
             resp = await fetch(`https://obliging-swan-trivially.ngrok-free.app/register`, { method: "POST", body: JSON.stringify(body) });
 
-            resp.ok ? alert("User registered succefully") : alert("Unauthenticated");
+            resp.ok ? window.location.replace("./index.html") : alert("Could not register user");
         }
 
         ownid("register", {
